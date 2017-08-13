@@ -2,9 +2,10 @@
   "name": "electron-quick-start",
   "version": "1.0.0",
   "description": "A minimal Electron application",
-  "main": "main.js",
+  "main": "app/main.js",
   "scripts": {
     "start": "cross-env HOT=1 NODE_ENV=production electron .",
+    "dev": "gulp start",
     "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r babel-register .",
     "build": "electron-packager . --out=dist --asar --overwrite --all",
     "lint": "eslint --cache --format=node_modules/eslint-formatter-pretty .",
@@ -13,7 +14,13 @@
     "lint-styles-fix": "stylefmt -r app/*.css app/components/*.css"
   },
   "repository": "https://github.com/electron/electron-quick-start",
-  "keywords": ["Electron", "quick", "start", "tutorial", "demo"],
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
   "author": "ly2011",
   "license": "CC0-1.0",
   "devDependencies": {
@@ -31,7 +38,9 @@
     "devtron": "^1.4.0",
     "electron": "~1.6.2",
     "electron-debug": "^1.4.0",
+    "electron-is-dev": "^0.3.0",
     "electron-packager": "^8.7.2",
+    "electron-window-state": "^4.1.1",
     "eslint": "^4.4.1",
     "eslint-config-standard": "^10.2.1",
     "eslint-formatter-pretty": "^1.1.0",
@@ -39,6 +48,7 @@
     "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
+    "gulp": "^3.9.1",
     "stylefmt": "^6.0.0",
     "stylelint": "^8.0.0",
     "stylelint-config-standard": "^17.0.0"

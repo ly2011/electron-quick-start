@@ -3,6 +3,9 @@ const electron = require('electron');
 const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
+const Menu = electron.Menu;
+const dialog = electron.dialog;
+const ipc = electron.ipcMain;
 
 require('electron-debug')({ showDevTools: true });
 
@@ -14,6 +17,7 @@ const url = require('url');
 let mainWindow;
 
 function createWindow() {
+  console.log('createWindow');
   // Create the browser window.
   mainWindow = new BrowserWindow({ width: 800, height: 600 });
 
@@ -31,14 +35,22 @@ function createWindow() {
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
+    console.log('closed');
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null;
   });
 
+  mainWindow.on('ready-to-show', () => {
+    console.log('ready-to-show');
+    mainWindow.show();
+    mainWindow.focus();
+  });
+
   // 当页面加载完成时,会触发`did-finish-load`事件
   mainWindow.on('did-finish-load', () => {
+    console.log('did-finish-load');
     mainWindow.webContents.send(
       'main-process-messages',
       'webContents event "did-finish-load" called'
@@ -53,6 +65,7 @@ app.on('ready', createWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
+  console.log('window-all-closed');
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
@@ -61,6 +74,7 @@ app.on('window-all-closed', function() {
 });
 
 app.on('activate', function() {
+  console.log('activate');
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {

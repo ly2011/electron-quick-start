@@ -5,8 +5,19 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const Menu = electron.Menu;
 const dialog = electron.dialog;
-const ipc = electron.ipcMain;
+const ipcMain = electron.ipcMain;
 
+global.appSettings = require('config');
+
+// Manage unhandled exceptions as early as possible
+process.on('uncaughtException', e => {
+  console.error(`Caught unhandled exception: ${e}`);
+  dialog.showErrorBox(
+    'Caught unhandled exception',
+    e.message || 'Unknown error message'
+  );
+  app.quit();
+});
 require('electron-debug')({ showDevTools: true });
 
 const path = require('path');
@@ -19,7 +30,12 @@ let mainWindow;
 function createWindow() {
   console.log('createWindow');
   // Create the browser window.
-  mainWindow = new BrowserWindow({ width: 800, height: 600 });
+  mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    show: false,
+    title: app.getName()
+  });
 
   // and load the index.html of the app.
   mainWindow.loadURL(
@@ -29,6 +45,16 @@ function createWindow() {
       slashes: true
     })
   );
+
+  // 同渲染进程通讯
+  ipcMain.on('asynchronous-message', (event, arg) => {
+    console.log(arg); //输出`ping`
+    event.sender.send('asynchronous-reply', 'pong');
+  });
+  ipcMain.on('synchronous-message', (event, arg) => {
+    console.log(arg); //输出`ping`
+    event.returnValue = 'pong';
+  });
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -41,7 +67,9 @@ function createWindow() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
-
+  mainWindow.on('unresponsive', () => {
+    console.warn('The windows is not responding');
+  });
   mainWindow.on('ready-to-show', () => {
     console.log('ready-to-show');
     mainWindow.show();
@@ -49,12 +77,16 @@ function createWindow() {
   });
 
   // 当页面加载完成时,会触发`did-finish-load`事件
-  mainWindow.on('did-finish-load', () => {
+  mainWindow.webContents.on('did-finish-load', () => {
     console.log('did-finish-load');
     mainWindow.webContents.send(
       'main-process-messages',
       'webContents event "did-finish-load" called'
     );
+  });
+
+  mainWindow.webContents.on('crashed', () => {
+    console.error('The browser window has just crashed');
   });
 }
 

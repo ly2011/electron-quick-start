@@ -9,3 +9,12 @@ const ipcRenderer = electron.ipcRenderer;
 ipcRenderer.on('main-process-messages', (event, message) => {
   console.log(`message from Main Process: ${message}`);
 });
+
+// 向主线程发送信息
+ipcRenderer.send('render-process-messages', 'Hello Main Messages');
+
+console.log(ipcRenderer.sendSync('synchronous-message', 'ping'));
+ipcRenderer.on('asynchronous-reply', (event, arg) => {
+  console.log(arg); // 输出`pong`
+});
+ipcRenderer.send('asynchronous-message', 'ping');

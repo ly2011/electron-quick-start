@@ -52,5 +52,8 @@
     "stylefmt": "^6.0.0",
     "stylelint": "^8.0.0",
     "stylelint-config-standard": "^17.0.0"
+  },
+  "dependencies": {
+    "config": "^1.26.2"
   }
 }

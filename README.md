@@ -27,6 +27,7 @@ npm start
 3、[https://github.com/Automattic/simplenote-electron](https://github.com/Automattic/simplenote-electron)
 
 4、[https://github.com/xwartz/electron-hot-boilerplate](https://github.com/xwartz/electron-hot-boilerplate)
+
 ## License
 
 [CC0 1.0 (Public Domain)](LICENSE.md)

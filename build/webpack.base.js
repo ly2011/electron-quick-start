@@ -243,17 +243,19 @@ module.exports = {
       },
       {
         test: /\.(js|jsx)$/,
-        use: ['babel-loader'],
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true
+            }
+          }
+        ]
       },
       {
         test: /\.tsx?$/,
         use: ['awesome-typescript-loader'],
-        exclude: /node_modules/
-      },
-      {
-        test: /\.html$/,
-        use: ['vue-html-loader'],
         exclude: /node_modules/
       },
       {
@@ -307,6 +309,7 @@ module.exports = {
     // 作用域提升，减少代码量，加快代码运行速度（webpack 3.0）
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.NamedModulesPlugin(),
     new webpack.LoaderOptionsPlugin({
       options: {
         context: rootPath,
@@ -322,27 +325,12 @@ module.exports = {
       eslint: {
         configFile: eslintConfigPath,
         formatter: require('eslint-friendly-formatter')
-      },
-      vue: {
-        loaders: {
-          css: ExtractTextPlugin.extract({
-            use: ['css-loader', 'postcss-loader'],
-            fallback: 'vue-style-loader'
-          }),
-          scss: ExtractTextPlugin.extract({
-            use: ['css-loader', 'postcss-loader', 'sass-loader'],
-            fallback: 'vue-style-loader'
-          }),
-          sass: ExtractTextPlugin.extract({
-            use: ['css-loader', 'postcss-loader', 'sass-loader'],
-            fallback: 'vue-style-loader'
-          })
-        }
       }
     }),
     new ExtractTextPlugin({
       filename: 'css/[name].[hash].css',
       allChunks: true
     })
-  ]
+  ],
+  target: 'electron-renderer'
 };

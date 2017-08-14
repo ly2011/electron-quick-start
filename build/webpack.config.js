@@ -36,8 +36,8 @@ const developmentConf = merge(baseConfig, {
     // pwa
     new HtmlWebpackPlugin({
       // 根据模板插入css/js等生成最终HTML
-      title: 'elm',
-      favicon: faviconPath, // favicon路径
+      title: 'electron',
+      // favicon: faviconPath, // favicon路径
       filename: 'index.html',
       template: resolve('app/index.html'),
       hash: false,

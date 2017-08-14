@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const cssnext = require('postcss-cssnext');
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const isPro = process.env.NODE_ENV === 'production';
 
@@ -309,7 +310,7 @@ module.exports = {
     // 作用域提升，减少代码量，加快代码运行速度（webpack 3.0）
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.NamedModulesPlugin(),
+    // new webpack.NamedModulesPlugin(),
     new webpack.LoaderOptionsPlugin({
       options: {
         context: rootPath,
@@ -330,7 +331,12 @@ module.exports = {
     new ExtractTextPlugin({
       filename: 'css/[name].[hash].css',
       allChunks: true
-    })
+    }),
+    new CopyWebpackPlugin([
+      // {output}/to/file.txt
+      { from: 'app/main.js', to: 'dist/main.js' },
+      { from: 'app/renderer.js', to: 'dist/renderer.js' }
+    ])
   ],
   target: 'electron-renderer'
 };

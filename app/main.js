@@ -38,21 +38,19 @@ function createWindow() {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadURL(
-    url.format({
-      pathname: path.join(__dirname, 'index.html'),
-      protocol: 'file:',
-      slashes: true
-    })
-  );
+  const winURL =
+    process.env.NODE_ENV !== 'production'
+      ? `http://localhost:8080`
+      : `file://${__dirname}/index.html`;
+  mainWindow.loadURL(winURL);
 
   // 同渲染进程通讯
   ipcMain.on('asynchronous-message', (event, arg) => {
-    console.log(arg); //输出`ping`
+    console.log(arg); // 输出`ping`
     event.sender.send('asynchronous-reply', 'pong');
   });
   ipcMain.on('synchronous-message', (event, arg) => {
-    console.log(arg); //输出`ping`
+    console.log(arg); // 输出`ping`
     event.returnValue = 'pong';
   });
 

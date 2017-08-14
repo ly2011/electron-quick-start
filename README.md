@@ -1,5 +1,13 @@
 # electron-quick-start
 
+**引入react关键点是 electron 的入口文件 `main.js` 的 `loadURL`的url路径在开发环境下要用 `http://localhost:8080`(webpack测试环境的devServer地址)**
+
+运行:(还有bug,暂时需要启动两个程序)
+
+```bash
+npm run hot-react-dev && npm run hot-electron
+```
+
 ```bash
 # Clone this repository
 git clone https://github.com/ly2011/electron-quick-start
@@ -27,6 +35,7 @@ npm start
 3、[https://github.com/Automattic/simplenote-electron](https://github.com/Automattic/simplenote-electron)
 
 4、[https://github.com/xwartz/electron-hot-boilerplate](https://github.com/xwartz/electron-hot-boilerplate)
+5、[https://github.com/gustavodsf/electron-react](https://github.com/gustavodsf/electron-react)
 
 ## License
 

@@ -24,7 +24,9 @@ npm start
 
 1、[https://github.com/amhoho/electron-cn-docs](https://github.com/amhoho/electron-cn-docs)
 2、[https://github.com/BZCoding/SkelEktron](https://github.com/BZCoding/SkelEktron)
+3、[https://github.com/Automattic/simplenote-electron](https://github.com/Automattic/simplenote-electron)
 
+4、[https://github.com/xwartz/electron-hot-boilerplate](https://github.com/xwartz/electron-hot-boilerplate)
 ## License
 
 [CC0 1.0 (Public Domain)](LICENSE.md)

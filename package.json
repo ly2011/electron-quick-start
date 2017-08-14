@@ -4,8 +4,9 @@
   "description": "A minimal Electron application",
   "main": "app/main.js",
   "scripts": {
+    "hot-electron": "electron -r babel-register ./app/main.js",
+    "hot-react-dev": "webpack-dev-server --config build/webpack.config.js --history-api-fallback --devtool eval --colors --inline --hot --content-base app",
     "start": "cross-env HOT=1 NODE_ENV=production electron .",
-    "dev": "gulp start",
     "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r babel-register .",
     "build": "electron-packager . --out=dist --asar --overwrite --all",
     "lint": "eslint --cache --format=node_modules/eslint-formatter-pretty .",
@@ -14,13 +15,7 @@
     "lint-styles-fix": "stylefmt -r app/*.css app/components/*.css"
   },
   "repository": "https://github.com/electron/electron-quick-start",
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
-  ],
+  "keywords": ["Electron", "quick", "start", "tutorial", "demo"],
   "author": "ly2011",
   "license": "CC0-1.0",
   "devDependencies": {

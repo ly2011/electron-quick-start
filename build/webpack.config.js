@@ -4,6 +4,7 @@ const merge = require('webpack-merge');
 const baseConfig = require('./webpack.base');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 // const DashboardPlugin = require('webpack-dashboard/plugin');
 const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
@@ -15,7 +16,7 @@ function resolve(dir = '.') {
  * 目录/路径
  */
 const appPath = resolve('app');
-// const buildPath = path.resolve(__dirname, '../dist')
+const buildPath = resolve('dist');
 const faviconPath = resolve('app/assets/favicon.ico');
 
 const developmentConf = merge(baseConfig, {
@@ -26,8 +27,7 @@ const developmentConf = merge(baseConfig, {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(
         process.env.NODE_ENV || 'development'
-      ),
-      'process.env.VUE_ENV': '"client"'
+      )
     }),
     new webpack.HotModuleReplacementPlugin(),
     new FriendlyErrorsWebpackPlugin(),
@@ -65,7 +65,17 @@ const developmentConf = merge(baseConfig, {
       // name: ['mainifest'], // 将公共模块提取, 参照 entry
       name: ['vendor', 'mainifest'], // 将公共模块提取, 参照 entry
       minChunks: Infinity // 提取所有entry共同依赖的模块
-    })
+    }),
+    // copy static
+    new CopyWebpackPlugin([
+      { from: `${appPath}/main.js`, to: `${buildPath}/main.js` },
+      { from: `${appPath}/renderer.js`, to: `${buildPath}/renderer.js` },
+      {
+        from: `${appPath}/static`,
+        to: `${buildPath}/static`,
+        ignore: ['.*']
+      }
+    ])
     // new ExtractTextPlugin('css/[name].[hash].css')
   ],
   devtool: 'cheap-module-eval-source-map',

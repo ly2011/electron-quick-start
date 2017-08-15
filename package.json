@@ -4,11 +4,11 @@
   "description": "A minimal Electron application",
   "main": "app/main.js",
   "scripts": {
-    "dev": "npm run hot-react-dev && npm run hot-electron",
-    "prestart": "npm run hot-react-dev",
-    "start": "npm run hot-electron",
-    "hot-electron": "electron -r babel-register ./app/main.js",
-    "hot-react-dev": "NODE_ENV=development webpack-dev-server --config build/webpack.config.js --history-api-fallback --colors --inline --hot --content-base app",
+    "dev": "cross-env NODE_ENV=development concurrently \"npm run hot-react-dev\" \"npm run hot-electron\"",
+    "prestart": "cross-env NODE_ENV=development npm run hot-react-dev",
+    "start": "cross-env NODE_ENV=development npm run hot-electron",
+    "hot-electron": "cross-env NODE_ENV=development electron -r babel-register ./app/main.js",
+    "hot-react-dev": "webpack-dev-server --config build/webpack.config.js --history-api-fallback --colors --inline --hot --content-base app",
     "react-build": "cross-env NODE_ENV=production webpack --progress --hide-modules --config build/webpack.production.js",
     "electron-run-build": "cross-env NODE_ENV=production electron -r babel-register ./dist/main.js",
     "build": "electron-packager . --out=dist --asar --overwrite --all",
@@ -18,7 +18,13 @@
     "lint-styles-fix": "stylefmt -r app/*.css app/components/*.css"
   },
   "repository": "https://github.com/electron/electron-quick-start",
-  "keywords": ["Electron", "quick", "start", "tutorial", "demo"],
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
   "author": "ly2011",
   "license": "CC0-1.0",
   "engines": {
@@ -40,8 +46,10 @@
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.24.1",
     "clean-webpack-plugin": "^0.1.16",
+    "concurrently": "^3.5.0",
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^5.0.5",
+    "css-loader": "^0.28.4",
     "cssnano": "^3.10.0",
     "devtron": "^1.4.0",
     "electron": "~1.6.2",

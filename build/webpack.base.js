@@ -32,7 +32,7 @@ module.exports = {
     // 无论 path 是什么, dev 环境的 `index.html` 所引用的 js 路径都是 文件名而已(即与 path 完全无关. 只与
     // filename 字段有关而已)
     path: buildPath,
-    publicPath: './',
+    publicPath: isPro ? './' : '/',
     filename: 'js/[name]__[hash:16].bundle.js',
     chunkFilename: 'js/[name]__[hash:16].bundle.js'
   },
@@ -245,7 +245,11 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: ['babel-loader']
+        use: [
+          {
+            loader: 'babel-loader'
+          }
+        ]
       },
       {
         test: /\.tsx?$/,
@@ -327,5 +331,6 @@ module.exports = {
       allChunks: true
     })
   ],
-  target: 'electron-renderer'
+  // target: 'electron-renderer'
+  target: 'web'
 };

@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const cssnext = require('postcss-cssnext');
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const isPro = process.env.NODE_ENV === 'production';
 
@@ -32,7 +32,7 @@ module.exports = {
     // 无论 path 是什么, dev 环境的 `index.html` 所引用的 js 路径都是 文件名而已(即与 path 完全无关. 只与
     // filename 字段有关而已)
     path: buildPath,
-    publicPath: '/',
+    publicPath: './',
     filename: 'js/[name]__[hash:16].bundle.js',
     chunkFilename: 'js/[name]__[hash:16].bundle.js'
   },
@@ -245,14 +245,7 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              cacheDirectory: true
-            }
-          }
-        ]
+        use: ['babel-loader']
       },
       {
         test: /\.tsx?$/,
@@ -307,6 +300,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.BannerPlugin('版权所有，翻版必究'),
     // 作用域提升，减少代码量，加快代码运行速度（webpack 3.0）
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
@@ -331,12 +325,7 @@ module.exports = {
     new ExtractTextPlugin({
       filename: 'css/[name].[hash].css',
       allChunks: true
-    }),
-    new CopyWebpackPlugin([
-      // {output}/to/file.txt
-      { from: 'app/main.js', to: 'dist/main.js' },
-      { from: 'app/renderer.js', to: 'dist/renderer.js' }
-    ])
+    })
   ],
   target: 'electron-renderer'
 };

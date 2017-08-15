@@ -11,9 +11,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Visualizer = require('webpack-visualizer-plugin');
 const CleanPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CompressionWebpackPlugin = require('compression-webpack-plugin');
+// const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const SWPrecachePlugin = require('sw-precache-webpack-plugin');
-const OfflinePlugin = require('offline-plugin');
+// const OfflinePlugin = require('offline-plugin');
 const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 // const WebpackStrip = require('strip-loader') const BannerPlugin =
 // webpack.BannerPlugin
@@ -38,13 +38,13 @@ function resolve(dir = '.') {
 /**
  * 目录/路径
  */
-const srcPath = resolve('src');
+const appPath = resolve('app');
 const buildPath = resolve('dist');
-const faviconPath = resolve('src/assets/favicon.ico');
+const faviconPath = resolve('app/assets/favicon.ico');
 
 const productionConf = merge(baseConfig, {
   entry: {
-    index: resolve('src/index.js')
+    index: resolve('app/index.js')
     //  vendor: [
     //   'vue',
     //   'vue-router',
@@ -139,10 +139,10 @@ const productionConf = merge(baseConfig, {
     // pwa
     new HtmlWebpackPlugin({
       // 根据模板插入css/js等生成最终HTML
-      title: 'vue2-elm',
-      favicon: faviconPath, // favicon路径
+      title: 'electron',
+      // favicon: faviconPath, // favicon路径
       filename: 'index.html',
-      template: resolve('src/index.html'),
+      template: resolve('app/index.html'),
       hash: false,
       // excludeChunks: 'appcache/manifest.appcache',
       inject: true,
@@ -193,22 +193,24 @@ const productionConf = merge(baseConfig, {
 
     // copy static
     new CopyWebpackPlugin([
+      { from: `${appPath}/main.js`, to: `${buildPath}/main.js` },
+      { from: `${appPath}/renderer.js`, to: `${buildPath}/renderer.js` },
       {
-        from: `${srcPath}/static`,
+        from: `${appPath}/static`,
         to: `${buildPath}/static`,
         ignore: ['.*']
       }
     ]),
-    new CompressionWebpackPlugin({
-      asset: '[path].gz[query]',
-      algorithm: 'gzip',
-      test: new RegExp(`\\.(${productionGzipExtensions.join('|')})$`),
-      threshold: 10240,
-      minRatio: 0.8
-    }),
+    // new CompressionWebpackPlugin({
+    //   asset: '[path].gz[query]',
+    //   algorithm: 'gzip',
+    //   test: new RegExp(`\\.(${productionGzipExtensions.join('|')})$`),
+    //   threshold: 10240,
+    //   minRatio: 0.8
+    // }),
     // auto generate service worker
     new SWPrecachePlugin({
-      cacheId: 'vue-elm',
+      cacheId: 'electron',
       filename: 'service-worker.js',
       minify: true,
       dontCacheBustUrlsMatching: /./,

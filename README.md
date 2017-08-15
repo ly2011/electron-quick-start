@@ -2,10 +2,16 @@
 
 **引入react关键点是 electron 的入口文件 `main.js` 的 `loadURL`的url路径在开发环境下要用 `http://localhost:8080`(webpack测试环境的devServer地址)**
 
-运行:(还有bug,暂时需要启动两个程序)
+运行:
+
+~~(还有bug,暂时需要启动两个程序)~~
+
+~~npm run hot-react-dev && npm run hot-electron~~
 
 ```bash
-npm run hot-react-dev && npm run hot-electron
+
+npm run dev
+
 ```
 
 ```bash
@@ -16,7 +22,7 @@ cd electron-quick-start
 # Install dependencies
 npm install
 # Run the app
-npm start
+npm dev
 ```
 
 ## Resources for Learning Electron

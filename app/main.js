@@ -77,6 +77,9 @@ function createWindow() {
   // 当页面加载完成时,会触发`did-finish-load`事件
   mainWindow.webContents.on('did-finish-load', () => {
     console.log('did-finish-load');
+    if (!mainWindow) {
+      throw new Error('"mainWindow" is not defined');
+    }
     mainWindow.webContents.send(
       'main-process-messages',
       'webContents event "did-finish-load" called'
